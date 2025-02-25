@@ -1,12 +1,14 @@
 import { useState } from 'react'
-
+import Login from './Pages/Login'
+import Dashboard from './Pages/Dashboard'
+import Navbar from './Components/Navbar'
+import Projects from './Pages/Projects'
 
 function App() {
 
   return (
     <>
-      <h1 className='text-4xl text-center'>hello</h1>
-
+      <Login />
     </>
   )
 }
