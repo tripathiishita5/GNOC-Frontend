@@ -20,7 +20,6 @@ function Login() {
     };
     console.log(data);
     const response = await login(data);
-    console.log(response);
   };
 
   return (
