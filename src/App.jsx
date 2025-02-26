@@ -1,17 +1,15 @@
-import { useState } from 'react'
-import Login from './Pages/Login'
-import Dashboard from './Pages/Dashboard'
-import Navbar from './Components/Navbar'
-import Projects from './Pages/Projects'
-import AdminControl from './Pages/AdminControl'
-
+import { RouterProvider } from "react-router";
+import { router } from "./router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 function App() {
-
+  const queryClient = new QueryClient();
   return (
     <>
-      <AdminControl />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}></RouterProvider>
+      </QueryClientProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

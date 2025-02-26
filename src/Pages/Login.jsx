@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { User, Lock, ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { login } from "../htttp/api";
 
 function Login() {
@@ -121,7 +121,7 @@ function Login() {
           </div>
 
           <p className="mt-6 text-center text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don&lsquo;t have an account?
             <a href="#" className="font-medium text-[#820C59]">
               Contact administrator
             </a>
