@@ -1,8 +1,10 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import { useAuthStore } from "../store/userStore";
 const Protected = () => {
   const { user } = useAuthStore();
-  console.log(user);
+  if (!user) {
+    return <Navigate to={"/auth/login"} />;
+  }
   return (
     <div>
       <Outlet />

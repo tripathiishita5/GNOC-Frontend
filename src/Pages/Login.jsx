@@ -1,14 +1,31 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { User, Lock, ArrowRight } from "lucide-react";
-import { login } from "../htttp/api";
+import { login, profile } from "../htttp/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "../store/userStore";
+import { data } from "react-router";
 
 function Login() {
+  const { setUser } = useAuthStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   // const navigate = useNavigate();
+
+  const { refetch } = useQuery({
+    queryKey: ["profile"],
+    queryFn: profile,
+    enabled: false,
+  });
+  const { mutate: loginMutate } = useMutation({
+    mutationFn: (data) => login(data),
+    onSuccess: async () => {
+      const { data } = await refetch();
+      setUser(data.data.data);
+    },
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,8 +33,7 @@ function Login() {
       empId: username,
       password: password,
     };
-    console.log(data);
-    const response = await login(data);
+    loginMutate(data);
   };
 
   return (
