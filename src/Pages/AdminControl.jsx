@@ -13,14 +13,6 @@ function AdminControl() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex flex-col">
-            {/* Logo Section */}
-            <div className="w-full p-6 flex justify-end">
-                <img
-                    src="https://www.metermarket.co.uk/assets/manufacturers/_manufacturerTile2x/logo_secure.png"
-                    alt="Secure Meter Logo"
-                    className="h-12"
-                />
-            </div>
 
             {/* Admin Control Form Section */}
             <div className="flex-1 flex items-center justify-center px-6">
