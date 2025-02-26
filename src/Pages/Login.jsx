@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { User, Lock, ArrowRight } from "lucide-react";
 import { login, profile } from "../htttp/api";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "../store/userStore";
 import { data } from "react-router";
 
@@ -10,20 +10,12 @@ function Login() {
   const { setUser } = useAuthStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  // const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const { refetch } = useQuery({
-    queryKey: ["profile"],
-    queryFn: profile,
-    enabled: false,
-  });
   const { mutate: loginMutate } = useMutation({
     mutationFn: (data) => login(data),
-    onSuccess: async () => {
-      const { data } = await refetch();
-      setUser(data.data.data);
+    onSuccess: () => {
+      queryClient.invalidateQueries(["profile"]);
     },
   });
 
@@ -121,17 +113,12 @@ function Login() {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                disabled={isLoading}
                 className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-[#820C59] hover:bg-[#722156] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? (
-                  "Signing In..."
-                ) : (
-                  <>
-                    Sign In
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </>
-                )}
+                <>
+                  Sign In
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </>
               </button>
             </form>
           </div>
