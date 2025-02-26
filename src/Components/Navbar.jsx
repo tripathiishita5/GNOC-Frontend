@@ -64,10 +64,10 @@ const Navbar = () => {
                             Projects
                         </a>
                         <a
-                            href="/user-rights"
+                            href="/adminControl"
                             className="text-[#820C59] hover:bg-[#F3E5F5] hover:text-[#6F1747] px-3 mr-30 py-2 transition-all duration-300 rounded-md"
                         >
-                            User Rights
+                            Admin Control
                         </a>
                     </div>
                 </div>

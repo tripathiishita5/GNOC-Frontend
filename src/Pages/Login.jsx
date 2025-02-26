@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { User, Lock, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
