@@ -4,6 +4,7 @@ import Protected from "./Layouts/Protected";
 import Dashboard from "./Pages/Dashboard";
 import NonProtected from "./Layouts/NonProtected";
 import Login from "./Pages/Login";
+import Projects from "./Pages/Projects";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
           {
             path: "/",
             element: <Dashboard />,
+          },
+          {
+            path: "/projects",
+            element: <Projects />,
           },
         ],
       },

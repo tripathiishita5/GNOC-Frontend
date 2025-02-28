@@ -5,6 +5,7 @@ import { login, profile } from "../htttp/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "../store/userStore";
 import { data } from "react-router";
+import Logo from "../Components/Logo";
 
 function Login() {
   const { setUser } = useAuthStore();
@@ -32,11 +33,7 @@ function Login() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white flex flex-col">
       {/* Logo Section */}
       <div className="w-full p-6 flex justify-end">
-        <img
-          src="https://www.metermarket.co.uk/assets/manufacturers/_manufacturerTile2x/logo_secure.png"
-          alt="Secure Meter Logo"
-          className="h-12"
-        />
+        <Logo size={12} />
       </div>
 
       {/* Login Form Section */}
