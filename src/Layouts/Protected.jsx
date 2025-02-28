@@ -1,21 +1,40 @@
 import { Navigate, NavLink, Outlet, useLocation } from "react-router";
 import { useAuthStore } from "../store/userStore";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Button, Flex, Layout, Menu, Space, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { useState } from "react";
-import { FundProjectionScreenOutlined, HomeFilled } from "@ant-design/icons";
+import {
+  FundProjectionScreenOutlined,
+  HomeFilled,
+  UserOutlined,
+} from "@ant-design/icons";
 import Logo from "../Components/Logo";
+import { Typography } from "antd";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { logout } from "../htttp/api";
+const { Text } = Typography;
 const Protected = () => {
-  const { user } = useAuthStore();
+  const { user, logout: logOut } = useAuthStore();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const queryClient = useQueryClient();
+
+  const { mutate: logoutMutate } = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["profile"]);
+      logOut();
+    },
+  });
+
   if (!user) {
     return <Navigate to={"/auth/login"} />;
   }
+
   const items = getMenueItems(user.role);
   return (
     <div>
@@ -30,7 +49,7 @@ const Protected = () => {
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
         >
-          <div className="p-6 pb-11">
+          <div className="p-5 pb-11">
             <Logo size={5} />
           </div>
           <Menu
@@ -46,7 +65,32 @@ const Protected = () => {
               padding: 0,
               background: colorBgContainer,
             }}
-          />
+          >
+            <Flex justify="space-between" style={{ padding: "0 16px" }}>
+              <div>
+                <Text type="success">
+                  <Space>
+                    {user.role}
+                    <UserOutlined />
+                  </Space>
+                </Text>
+              </div>
+              <div className="flex items-center gap-4">
+                <div>Hello, {user.name}</div>
+                <div>
+                  <Button
+                    onClick={logoutMutate}
+                    style={{
+                      background: "#820C59",
+                      color: "white",
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </div>
+              </div>
+            </Flex>
+          </Header>
           <Content
             style={{
               margin: "0 16px",
