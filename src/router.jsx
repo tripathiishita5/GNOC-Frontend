@@ -5,6 +5,7 @@ import Dashboard from "./Pages/Dashboard";
 import NonProtected from "./Layouts/NonProtected";
 import Login from "./Pages/Login";
 import Projects from "./Pages/Projects";
+import Users from "./Pages/Users";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
           {
             path: "/projects",
             element: <Projects />,
+          },
+          {
+            path: "/users",
+            element: <Users />,
           },
         ],
       },

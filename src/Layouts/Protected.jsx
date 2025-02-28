@@ -68,12 +68,14 @@ const Protected = () => {
           >
             <Flex justify="space-between" style={{ padding: "0 16px" }}>
               <div>
-                <Text type="success">
-                  <Space>
-                    {user.role}
-                    <UserOutlined />
-                  </Space>
-                </Text>
+                {!collapsed && (
+                  <Text type="success" className="">
+                    <Space>
+                      {user.role}
+                      <UserOutlined />
+                    </Space>
+                  </Text>
+                )}
               </div>
               <div className="flex items-center gap-4">
                 <div>Hello, {user.name}</div>
@@ -146,5 +148,13 @@ const getMenueItems = (role) => {
       priorty: 0,
     },
   ];
+  if (role == "admin") {
+    baseItems.push({
+      key: "/Users",
+      icon: <UserOutlined />,
+      label: <NavLink to={"/users"}>Users</NavLink>,
+      priorty: 0,
+    });
+  }
   return baseItems.sort((a, b) => a.priorty - b.priorty);
 };
