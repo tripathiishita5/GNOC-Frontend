@@ -81,6 +81,7 @@ const Protected = () => {
                 <div>Hello, {user.name}</div>
                 <div>
                   <Button
+                    type="primary"
                     onClick={logoutMutate}
                     style={{
                       background: "#820C59",
@@ -139,13 +140,13 @@ const getMenueItems = (role) => {
       key: "/",
       icon: <HomeFilled />,
       label: <NavLink to={"/"}>Home</NavLink>,
-      priorty: 0,
+      priorty: 1,
     },
     {
       key: "/projects",
       icon: <FundProjectionScreenOutlined />,
       label: <NavLink to={"/projects"}>Projects</NavLink>,
-      priorty: 0,
+      priorty: 2,
     },
   ];
   if (role == "admin") {
@@ -153,7 +154,7 @@ const getMenueItems = (role) => {
       key: "/Users",
       icon: <UserOutlined />,
       label: <NavLink to={"/users"}>Users</NavLink>,
-      priorty: 0,
+      priorty: 3,
     });
   }
   return baseItems.sort((a, b) => a.priorty - b.priorty);
