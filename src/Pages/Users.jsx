@@ -1,9 +1,9 @@
-import { Button, Card, Drawer, Flex, Form, Space } from "antd";
+import { Button, Card, Drawer, Flex, Form, Space, Table } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { register } from "../htttp/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getUsers, register } from "../htttp/api";
 import RegisterForm from "../Components/registerForm";
 const { Search } = Input;
 const Users = () => {
@@ -18,6 +18,11 @@ const Users = () => {
   const onClose = () => {
     setOpen(false);
   };
+  const { data } = useQuery({
+    queryKey: ["users"],
+    queryFn: getUsers,
+    placeholderData: (prevData) => prevData,
+  });
   const { mutate: createUser } = useMutation({
     mutationFn: (value) => register(value),
     onSuccess: () => {
@@ -25,6 +30,7 @@ const Users = () => {
       onClose();
     },
   });
+  if (!data) return <h2>Loading....</h2>;
   const handleCreatUser = async () => {
     const values = await form.validateFields();
     createUser(values);
@@ -55,6 +61,12 @@ const Users = () => {
           </div>
         </Flex>
       </Card>
+      <Table
+        className="pt-5"
+        dataSource={data.data}
+        columns={columns}
+        pagination={{ pageSize: 7 }}
+      />
       <Drawer
         title="Create a new user"
         width={520}
@@ -96,3 +108,31 @@ const Users = () => {
 };
 
 export default Users;
+
+const columns = [
+  {
+    title: "Sr. No.",
+    key: "serialNumber",
+    render: (_, __, index) => index + 1, // Index starts from 0, so add 1
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+  },
+  {
+    title: "Emplyee ID",
+    dataIndex: "empId",
+    key: "empId",
+  },
+  {
+    title: "Role",
+    dataIndex: "role",
+    key: "role",
+  },
+];
