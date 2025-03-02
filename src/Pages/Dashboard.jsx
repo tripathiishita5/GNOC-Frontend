@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { Mail, Phone, Ticket } from "lucide-react";
+import { Mail, Ticket } from "lucide-react";
 
 const teamMembers = [
   {
@@ -50,7 +50,7 @@ function Dashboard() {
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold text-white mb-8 text-center">
+      <h1 className="text-4xl font-semibold text-black mb-8 text-center">
         Team Dashboard
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
