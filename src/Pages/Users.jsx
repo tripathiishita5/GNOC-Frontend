@@ -2,12 +2,13 @@ import { Button, Card, Drawer, Flex, Form, Space, Table } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUsers, register } from "../htttp/api";
 import RegisterForm from "../Components/registerForm";
 const { Search } = Input;
 const Users = () => {
   const onSearchRes = (value) => console.log(value);
+  const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -28,6 +29,7 @@ const Users = () => {
     onSuccess: () => {
       form.resetFields();
       onClose();
+      queryClient.invalidateQueries(["users"]);
     },
   });
   if (!data) return <h2>Loading....</h2>;
