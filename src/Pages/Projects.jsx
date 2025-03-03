@@ -1,7 +1,13 @@
+import { Button, Card, Drawer, Flex, Form, Space } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import ProjectForm from "../Components/ProjectForm";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createProject } from "../htttp/api";
 
 const Projects = () => {
   // Sample list of projects
+  // eslint-disable-next-line no-unused-vars
   const [projects, setProjects] = useState([
     {
       id: 1,
@@ -24,20 +30,92 @@ const Projects = () => {
     },
     // Add more projects as needed
   ]);
-
-  // Handle remarks change
-  const handleRemarksChange = (e, id) => {
-    const updatedProjects = projects.map((project) => {
-      if (project.id === id) {
-        return { ...project, remarks: e.target.value };
-      }
-      return project;
-    });
-    setProjects(updatedProjects);
+  const [form] = Form.useForm();
+  const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const showDrawer = () => {
+    setOpen(true);
   };
 
+  const onClose = () => {
+    setOpen(false);
+  };
+  const { mutate: createP } = useMutation({
+    mutationFn: (value) => createProject(value),
+    onSuccess: () => {
+      form.resetFields();
+      onClose();
+      queryClient.invalidateQueries(["projects"]);
+    },
+  });
+  const handleCreateProject = async () => {
+    const values = await form.validateFields();
+    createP(values);
+  };
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className="">
+      <Card>
+        <Flex justify="space-between">
+          <div></div>
+          <div>
+            <Button
+              type="primary"
+              onClick={showDrawer}
+              size="default"
+              icon={<PlusOutlined />}
+              style={{
+                background: "#820C59",
+                color: "white",
+              }}
+            >
+              Create
+            </Button>
+          </div>
+        </Flex>
+      </Card>
+      <Drawer
+        title="Create a new project"
+        width={520}
+        onClose={() => {
+          onClose();
+          form.resetFields();
+        }}
+        open={open}
+        styles={{
+          body: {
+            paddingBottom: 80,
+          },
+        }}
+        extra={
+          <Space>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={handleCreateProject} type="primary">
+              Submit
+            </Button>
+          </Space>
+        }
+      >
+        <Form
+          layout="vertical"
+          form={form}
+          initialValues={{
+            jiraTicket: "",
+            startDate: "",
+            MonitoringProjects: "",
+            enviornment: "",
+            Discussion: "",
+            PreRequisites: "",
+            implementationDeployment: "",
+            review: "",
+            goLive: "",
+            completionDate: "",
+            status: "",
+            remarks: "",
+          }}
+        >
+          <ProjectForm />
+        </Form>
+      </Drawer>
       <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
         Project List
       </h1>
@@ -71,14 +149,6 @@ const Projects = () => {
             >
               Remarks:
             </label>
-            <textarea
-              id={`remarks-${project.id}`}
-              value={project.remarks}
-              onChange={(e) => handleRemarksChange(e, project.id)}
-              placeholder="Enter your remarks..."
-              rows="2"
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-            />
           </div>
         </div>
       ))}
