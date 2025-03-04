@@ -6,3 +6,4 @@ export const logout = () => api.post("/user/logout");
 export const register = (data) => api.post("/user/register", data);
 export const getUsers = () => api.get("/user");
 export const createProject = (data) => api.post("/project/create", data);
+export const getAllProjects = () => api.get("/project");

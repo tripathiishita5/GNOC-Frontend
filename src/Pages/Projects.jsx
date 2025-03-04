@@ -1,35 +1,21 @@
-import { Button, Card, Drawer, Flex, Form, Space } from "antd";
+import {
+  Badge,
+  Button,
+  Card,
+  Collapse,
+  Descriptions,
+  Drawer,
+  Flex,
+  Form,
+  Space,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import ProjectForm from "../Components/ProjectForm";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createProject } from "../htttp/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createProject, getAllProjects } from "../htttp/api";
 
 const Projects = () => {
-  // Sample list of projects
-  // eslint-disable-next-line no-unused-vars
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      name: "Beanbag Heat-New Infra",
-      startDate: "1/2/2025",
-      status: "Completed",
-      jiraTicket: "TSI-522",
-      environment: "Production",
-      completionDate: "2/6/2025",
-      remarks: "",
-    },
-    {
-      id: 2,
-      name: "S2 WSE DR",
-      startDate: "1/23/2025",
-      status: "In Progress",
-      jiraTicket: "TSI-392",
-      environment: "Production",
-      remarks: "",
-    },
-    // Add more projects as needed
-  ]);
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
@@ -40,6 +26,12 @@ const Projects = () => {
   const onClose = () => {
     setOpen(false);
   };
+  const { data } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getAllProjects,
+    placeholderData: (prev) => prev,
+  });
+
   const { mutate: createP } = useMutation({
     mutationFn: (value) => createProject(value),
     onSuccess: () => {
@@ -52,12 +44,75 @@ const Projects = () => {
     const values = await form.validateFields();
     createP(values);
   };
+  const collapseItems =
+    data?.data?.map((project, index) => ({
+      key: index.toString(),
+      label: project.MonitoringProjects,
+      children: (
+        <div>
+          <Descriptions
+            title="Project Data"
+            bordered
+            column={3}
+            items={[
+              {
+                label: "Jira Ticket",
+                children: (
+                  <Badge status="processing" text={project.jiraTicket} />
+                ),
+                span: "filled",
+              },
+              {
+                label: "Discussion",
+                children: project.Discussion,
+              },
+              {
+                label: "Start Date",
+                children: project.startDate,
+              },
+              {
+                label: "Completion Date",
+                children: project.completionDate,
+              },
+              {
+                label: "Enviornment",
+                children: project.enviornment,
+              },
+              {
+                label: "goLive",
+                children: project.goLive,
+              },
+              {
+                label: "Implementation Deployment",
+                children: project.implementationDeployment,
+              },
+              {
+                label: "review",
+                children: project.review,
+              },
+              {
+                label: "Status",
+                span: "filled",
+                children: project.status,
+              },
+              {
+                label: "Remarks",
+                span: "filled",
+                children: project.remarks[0]
+                  ?.split(",")
+                  .map((remark, idx) => <p key={idx}>{remark.trim()}</p>),
+              },
+            ]}
+          />
+        </div>
+      ),
+    })) || [];
   return (
     <div className="">
-      <Card>
+      <Card title="Project Details">
         <Flex justify="space-between">
           <div></div>
-          <div>
+          <div className="mb-4">
             <Button
               type="primary"
               onClick={showDrawer}
@@ -72,6 +127,7 @@ const Projects = () => {
             </Button>
           </div>
         </Flex>
+        <Collapse items={collapseItems} defaultActiveKey={["1"]} />
       </Card>
       <Drawer
         title="Create a new project"
@@ -116,42 +172,6 @@ const Projects = () => {
           <ProjectForm />
         </Form>
       </Drawer>
-      <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
-        Project List
-      </h1>
-      {projects.map((project) => (
-        <div
-          key={project.id}
-          className="bg-white shadow-lg rounded-lg mb-6 p-6 border border-gray-200"
-        >
-          <h2 className="text-2xl font-semibold text-gray-900">
-            {project.name}
-          </h2>
-          <div className="space-y-2 mt-4 text-gray-700">
-            <p>
-              <strong>Start Date:</strong> {project.startDate}
-            </p>
-            <p>
-              <strong>Status:</strong> {project.status}
-            </p>
-            <p>
-              <strong>Jira Ticket:</strong> {project.jiraTicket}
-            </p>
-            <p>
-              <strong>Environment:</strong> {project.environment}
-            </p>
-          </div>
-
-          <div className="mt-4">
-            <label
-              htmlFor={`remarks-${project.id}`}
-              className="block text-gray-700 font-medium mb-2"
-            >
-              Remarks:
-            </label>
-          </div>
-        </div>
-      ))}
     </div>
   );
 };
