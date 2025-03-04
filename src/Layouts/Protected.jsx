@@ -72,7 +72,7 @@ const Protected = () => {
                   <Text type="success" className="">
                     <Space>
                       {user.role}
-                      <UserOutlined />
+                      <UserOutlined style={{ fontSize: "18px" }} />
                     </Space>
                   </Text>
                 )}
@@ -138,13 +138,13 @@ const getMenueItems = (role) => {
   const baseItems = [
     {
       key: "/",
-      icon: <HomeFilled />,
+      icon: <HomeFilled style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/"}>Home</NavLink>,
       priorty: 1,
     },
     {
       key: "/projects",
-      icon: <FundProjectionScreenOutlined />,
+      icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/projects"}>Projects</NavLink>,
       priorty: 2,
     },
@@ -152,7 +152,7 @@ const getMenueItems = (role) => {
   if (role == "admin") {
     baseItems.push({
       key: "/Users",
-      icon: <UserOutlined />,
+      icon: <UserOutlined style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/users"}>Users</NavLink>,
       priorty: 3,
     });
