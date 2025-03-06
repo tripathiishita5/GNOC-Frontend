@@ -14,6 +14,7 @@ import { useState } from "react";
 import ProjectForm from "../Components/ProjectForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createProject, getAllProjects } from "../htttp/api";
+import exportToExcel from "../utility/exportToExcel";
 
 const Projects = () => {
   const [form] = Form.useForm();
@@ -180,7 +181,7 @@ const Projects = () => {
           <div className="mb-4 flex gap-4">
             <Button
               type="primary"
-              // onClick={showDrawer}
+              onClick={() => exportToExcel(data.data)}
               size="default"
               icon={<DownloadOutlined />}
               style={{
