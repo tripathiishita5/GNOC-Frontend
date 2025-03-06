@@ -149,7 +149,7 @@ const getMenueItems = (role) => {
       priorty: 2,
     },
   ];
-  if (role == "admin") {
+  if (role == "manager") {
     baseItems.push({
       key: "/Users",
       icon: <UserOutlined style={{ fontSize: "18px" }} />,

@@ -48,8 +48,9 @@ const RegisterForm = () => {
         </Form.Item>
         <Form.Item label="Role" name="role">
           <Select placeholder="Select a role">
-            <Select.Option value="admin">Admin</Select.Option>
-            <Select.Option value="user">User</Select.Option>
+            <Select.Option value="manager">Manager</Select.Option>
+            <Select.Option value="engineer">Engineer</Select.Option>
+            <Select.Option value="analyst">Analyst</Select.Option>
           </Select>
         </Form.Item>
       </Card>
