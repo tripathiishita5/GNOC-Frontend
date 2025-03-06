@@ -9,7 +9,7 @@ import {
   Form,
   Space,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import ProjectForm from "../Components/ProjectForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -73,23 +73,83 @@ const Projects = () => {
               },
               {
                 label: "Discussion",
-                children: project.Discussion,
+                children: (
+                  <div
+                    style={{
+                      backgroundColor: `${project.DiscussionColor}`,
+                      color: "black",
+                      width: "100%",
+                      height: "100%",
+                      padding: "5px",
+                    }}
+                  >
+                    {project.Discussion}
+                  </div>
+                ),
               },
               {
                 label: "Pre-Requisites",
-                children: project.PreRequisites,
+                children: (
+                  <div
+                    style={{
+                      backgroundColor: `${project.PreRequisitesColor}`,
+                      color: "black",
+                      width: "100%",
+                      height: "100%",
+                      padding: "5px",
+                    }}
+                  >
+                    {project.PreRequisites}
+                  </div>
+                ),
               },
               {
                 label: "Implementation Deployment",
-                children: project.implementationDeployment,
+                children: (
+                  <div
+                    style={{
+                      backgroundColor: `${project.implementationDeploymentColor}`,
+                      color: "black",
+                      width: "100%",
+                      height: "100%",
+                      padding: "5px",
+                    }}
+                  >
+                    {project.implementationDeployment}
+                  </div>
+                ),
               },
               {
                 label: "review",
-                children: project.review,
+                children: (
+                  <div
+                    style={{
+                      backgroundColor: `${project.reviewColor}`,
+                      color: "black",
+                      width: "100%",
+                      height: "100%",
+                      padding: "5px",
+                    }}
+                  >
+                    {project.review}
+                  </div>
+                ),
               },
               {
                 label: "goLive",
-                children: project.goLive,
+                children: (
+                  <div
+                    style={{
+                      backgroundColor: `${project.goLiveColor}`,
+                      color: "black",
+                      width: "100%",
+                      height: "100%",
+                      padding: "5px",
+                    }}
+                  >
+                    {project.goLive}
+                  </div>
+                ),
               },
               {
                 label: "Completion Date",
@@ -117,7 +177,19 @@ const Projects = () => {
       <Card title="Project Details">
         <Flex justify="space-between">
           <div></div>
-          <div className="mb-4">
+          <div className="mb-4 flex gap-4">
+            <Button
+              type="primary"
+              // onClick={showDrawer}
+              size="default"
+              icon={<DownloadOutlined />}
+              style={{
+                background: "#820C59",
+                color: "white",
+              }}
+            >
+              Export
+            </Button>
             <Button
               type="primary"
               onClick={showDrawer}

@@ -1,4 +1,11 @@
-import { Card, Form, Input, Select, DatePicker } from "antd";
+import { Card, Form, Input, Select, DatePicker, Radio } from "antd";
+
+const colorOptions = [
+  { label: "Red", value: "#FF0000" },
+  { label: "Yellow", value: "#FFFF00" },
+  { label: "Green", value: "#00FF00" },
+  { label: "Gray", value: "#808080" },
+];
 
 const ProjectForm = () => {
   return (
@@ -40,48 +47,37 @@ const ProjectForm = () => {
       </Card>
 
       <Card title="Project Details">
-        <Form.Item
-          label="Discussion"
-          name="Discussion"
-          rules={[
-            { required: true, message: "Please input Discussion details!" },
-          ]}
-        >
-          <Input.TextArea placeholder="Enter Discussion details" />
-        </Form.Item>
-        <Form.Item
-          label="Pre-Requisites"
-          name="PreRequisites"
-          rules={[{ required: true, message: "Please input Pre-Requisites!" }]}
-        >
-          <Input.TextArea placeholder="Enter Pre-Requisites" />
-        </Form.Item>
-        <Form.Item
-          label="Implementation Deployment"
-          name="implementationDeployment"
-          rules={[
-            {
-              required: true,
-              message: "Please input Implementation Deployment!",
-            },
-          ]}
-        >
-          <Input.TextArea placeholder="Enter Implementation Deployment" />
-        </Form.Item>
-        <Form.Item
-          label="Review"
-          name="review"
-          rules={[{ required: true, message: "Please input Review details!" }]}
-        >
-          <Input.TextArea placeholder="Enter Review details" />
-        </Form.Item>
-        <Form.Item
-          label="Go Live"
-          name="goLive"
-          rules={[{ required: true, message: "Please input Go Live details!" }]}
-        >
-          <Input.TextArea placeholder="Enter Go Live details" />
-        </Form.Item>
+        {[
+          "Discussion",
+          "PreRequisites",
+          "implementationDeployment",
+          "review",
+          "goLive",
+        ].map((field) => (
+          <>
+            <Form.Item
+              key={field}
+              label={field.replace(/([A-Z])/g, " $1").trim()}
+              name={field}
+              rules={[
+                { required: true, message: `Please input ${field} details!` },
+              ]}
+            >
+              <Input.TextArea placeholder={`Enter ${field} details`} />
+            </Form.Item>
+            <Form.Item
+              key={`${field}Color`}
+              label={`${field} Color`}
+              name={`${field}Color`}
+              rules={[
+                { required: true, message: `Please select ${field} color!` },
+              ]}
+            >
+              <Radio.Group options={colorOptions} optionType="button" />
+            </Form.Item>
+          </>
+        ))}
+
         <Form.Item label="Completion Date" name="completionDate">
           <DatePicker
             placeholder="Select Completion Date"
