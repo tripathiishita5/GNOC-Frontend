@@ -82,13 +82,7 @@ const ProjectForm = () => {
         >
           <Input.TextArea placeholder="Enter Go Live details" />
         </Form.Item>
-        <Form.Item
-          label="Completion Date"
-          name="completionDate"
-          rules={[
-            { required: true, message: "Please select Completion Date!" },
-          ]}
-        >
+        <Form.Item label="Completion Date" name="completionDate">
           <DatePicker
             placeholder="Select Completion Date"
             style={{ width: "100%" }}

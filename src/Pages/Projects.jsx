@@ -63,24 +63,21 @@ const Projects = () => {
                 span: "filled",
               },
               {
-                label: "Discussion",
-                children: project.Discussion,
-              },
-              {
                 label: "Start Date",
                 children: project.startDate,
               },
               {
-                label: "Completion Date",
-                children: project.completionDate,
-              },
-              {
                 label: "Enviornment",
                 children: project.enviornment,
+                span: "filled",
               },
               {
-                label: "goLive",
-                children: project.goLive,
+                label: "Discussion",
+                children: project.Discussion,
+              },
+              {
+                label: "Pre-Requisites",
+                children: project.PreRequisites,
               },
               {
                 label: "Implementation Deployment",
@@ -89,6 +86,14 @@ const Projects = () => {
               {
                 label: "review",
                 children: project.review,
+              },
+              {
+                label: "goLive",
+                children: project.goLive,
+              },
+              {
+                label: "Completion Date",
+                children: project.completionDate,
               },
               {
                 label: "Status",
