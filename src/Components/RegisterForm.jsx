@@ -1,6 +1,7 @@
 import { Card, Form, Input, Select } from "antd";
 
-const RegisterForm = () => {
+// eslint-disable-next-line react/prop-types
+const RegisterForm = ({ updating }) => {
   return (
     <div className="flex flex-col gap-4">
       <Card title="User Information">
@@ -30,22 +31,24 @@ const RegisterForm = () => {
         >
           <Input placeholder="Enter employee id " />
         </Form.Item>
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input the user password!",
-            },
-            {
-              min: 6,
-              message: "Password must be at least 6 characters long!",
-            },
-          ]}
-        >
-          <Input placeholder="Enter the user's Password" />
-        </Form.Item>
+        {!updating && (
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input the user password!",
+              },
+              {
+                min: 6,
+                message: "Password must be at least 6 characters long!",
+              },
+            ]}
+          >
+            <Input placeholder="Enter the user's Password" />
+          </Form.Item>
+        )}
         <Form.Item label="Role" name="role">
           <Select placeholder="Select a role">
             <Select.Option value="manager">Manager</Select.Option>
