@@ -63,17 +63,18 @@ const ProjectForm = () => {
                 { required: true, message: `Please input ${field} details!` },
               ]}
             >
+              <Form.Item
+                key={`${field}Color`}
+                // label={`${field} Color`}
+                name={`${field}Color`}
+                style={{ margin: "5px", marginLeft: "auto" }}
+                rules={[
+                  { required: true, message: `Please select ${field} color!` },
+                ]}
+              >
+                <Radio.Group options={colorOptions} optionType="button" />
+              </Form.Item>
               <Input.TextArea placeholder={`Enter ${field} details`} />
-            </Form.Item>
-            <Form.Item
-              key={`${field}Color`}
-              label={`${field} Color`}
-              name={`${field}Color`}
-              rules={[
-                { required: true, message: `Please select ${field} color!` },
-              ]}
-            >
-              <Radio.Group options={colorOptions} optionType="button" />
             </Form.Item>
           </>
         ))}
