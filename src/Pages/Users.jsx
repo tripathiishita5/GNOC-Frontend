@@ -1,9 +1,18 @@
-import { Button, Card, Drawer, Flex, Form, Space, Table } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Drawer,
+  Flex,
+  Form,
+  Popconfirm,
+  Space,
+  Table,
+} from "antd";
+import { PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getUsers, register, updateUser } from "../htttp/api";
+import { deleteUser, getUsers, register, updateUser } from "../htttp/api";
 import RegisterForm from "../Components/registerForm";
 const { Search } = Input;
 const Users = () => {
@@ -45,7 +54,20 @@ const Users = () => {
           >
             Edit
           </a>
-          <a>Delete</a>
+          <Popconfirm
+            onConfirm={() => handledelete(values)}
+            title="Delete the task"
+            description="Are you sure to delete this task?"
+            icon={
+              <QuestionCircleOutlined
+                style={{
+                  color: "red",
+                }}
+              />
+            }
+          >
+            <a>Delete</a>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -81,8 +103,15 @@ const Users = () => {
   const { mutate: updateMutation } = useMutation({
     mutationFn: (value) => updateUser({ id: editUser._id, data: value }),
     onSuccess: () => {
+      setEditUser(null);
       form.resetFields();
       onClose();
+      queryClient.invalidateQueries(["users"]);
+    },
+  });
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: (id) => deleteUser(id),
+    onSuccess: () => {
       queryClient.invalidateQueries(["users"]);
     },
   });
@@ -100,6 +129,9 @@ const Users = () => {
     setUpdating(true);
     showDrawer();
     form.setFieldsValue(value);
+  };
+  const handledelete = (value) => {
+    deleteMutation(value._id);
   };
   return (
     <div className="">
@@ -150,7 +182,7 @@ const Users = () => {
           <Space>
             <Button onClick={onClose}>Cancel</Button>
             <Button onClick={handleCreatUser} type="primary">
-              Submit
+              {updating ? "Update" : "Submit"}
             </Button>
           </Space>
         }

@@ -8,3 +8,4 @@ export const getUsers = () => api.get("/user");
 export const createProject = (data) => api.post("/project/create", data);
 export const getAllProjects = () => api.get("/project");
 export const updateUser = ({ id, data }) => api.patch(`/user/${id}`, data);
+export const deleteUser = (id) => api.delete(`/user/${id}`);
