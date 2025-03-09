@@ -7,13 +7,23 @@ import {
   Drawer,
   Flex,
   Form,
+  Popconfirm,
   Space,
 } from "antd";
-import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  PlusOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import ProjectForm from "../Components/ProjectForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createProject, getAllProjects, updateProject } from "../htttp/api";
+import {
+  createProject,
+  deleteProject,
+  getAllProjects,
+  updateProject,
+} from "../htttp/api";
 import exportToExcel from "../utility/exportToExcel";
 import dayjs from "dayjs";
 
@@ -54,6 +64,12 @@ const Projects = () => {
       queryClient.invalidateQueries(["projects"]);
     },
   });
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: (id) => deleteProject(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["projects"]);
+    },
+  });
   const handleCreateProject = async () => {
     if (updating) {
       const values = await form.validateFields();
@@ -74,6 +90,9 @@ const Projects = () => {
       startDate: project.startDate ? dayjs(project.startDate) : null,
     });
   };
+  const handledelete = (value) => {
+    deleteMutation(value._id);
+  };
   const collapseItems =
     data?.data?.map((project, index) => ({
       key: index.toString(),
@@ -92,7 +111,20 @@ const Projects = () => {
                   >
                     Edit
                   </Button>
-                  <Button>Delete</Button>
+                  <Popconfirm
+                    onConfirm={() => handledelete(project)}
+                    title="Delete the project"
+                    description="Are you sure to delete this project?"
+                    icon={
+                      <QuestionCircleOutlined
+                        style={{
+                          color: "red",
+                        }}
+                      />
+                    }
+                  >
+                    <Button>Delete</Button>
+                  </Popconfirm>
                 </div>
               </Flex>
             }

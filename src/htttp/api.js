@@ -11,3 +11,4 @@ export const updateUser = ({ id, data }) => api.patch(`/user/${id}`, data);
 export const deleteUser = (id) => api.delete(`/user/${id}`);
 export const updateProject = ({ id, data }) =>
   api.patch(`/project/${id}`, data);
+export const deleteProject = (id) => api.delete(`/project/${id}`);
