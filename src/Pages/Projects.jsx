@@ -13,11 +13,14 @@ import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import ProjectForm from "../Components/ProjectForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createProject, getAllProjects } from "../htttp/api";
+import { createProject, getAllProjects, updateProject } from "../htttp/api";
 import exportToExcel from "../utility/exportToExcel";
+import dayjs from "dayjs";
 
 const Projects = () => {
   const [form] = Form.useForm();
+  const [editProject, setEditProject] = useState(null);
+  const [updating, setUpdating] = useState(false);
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const showDrawer = () => {
@@ -26,6 +29,7 @@ const Projects = () => {
 
   const onClose = () => {
     setOpen(false);
+    setUpdating(false);
   };
   const { data } = useQuery({
     queryKey: ["projects"],
@@ -41,9 +45,34 @@ const Projects = () => {
       queryClient.invalidateQueries(["projects"]);
     },
   });
+  const { mutate: updateMutation } = useMutation({
+    mutationFn: (value) => updateProject({ id: editProject._id, data: value }),
+    onSuccess: () => {
+      setEditProject(null);
+      form.resetFields();
+      onClose();
+      queryClient.invalidateQueries(["projects"]);
+    },
+  });
   const handleCreateProject = async () => {
+    if (updating) {
+      const values = await form.validateFields();
+      updateMutation(values);
+      return;
+    }
     const values = await form.validateFields();
     createP(values);
+  };
+  const handleEdit = (project) => {
+    setUpdating(true);
+    showDrawer();
+    form.setFieldsValue({
+      ...project,
+      completionDate: project.completionDate
+        ? dayjs(project.completionDate)
+        : null,
+      startDate: project.startDate ? dayjs(project.startDate) : null,
+    });
   };
   const collapseItems =
     data?.data?.map((project, index) => ({
@@ -52,7 +81,21 @@ const Projects = () => {
       children: (
         <div>
           <Descriptions
-            title="Project Data"
+            title={
+              <Flex justify="space-between">
+                <>{"Project Data"}</>
+                <div className="flex gap-4">
+                  <Button
+                    onClick={() => {
+                      setEditProject(project), handleEdit(project);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  <Button>Delete</Button>
+                </div>
+              </Flex>
+            }
             bordered
             column={3}
             items={[
@@ -205,10 +248,12 @@ const Projects = () => {
             </Button>
           </div>
         </Flex>
-        <Collapse items={collapseItems} defaultActiveKey={["1"]} />
+        <div>
+          <Collapse items={collapseItems} defaultActiveKey={["1"]} />
+        </div>
       </Card>
       <Drawer
-        title="Create a new project"
+        title={updating ? "Upadate the project" : "Create a new Project"}
         width={520}
         onClose={() => {
           onClose();
@@ -224,7 +269,7 @@ const Projects = () => {
           <Space>
             <Button onClick={onClose}>Cancel</Button>
             <Button onClick={handleCreateProject} type="primary">
-              Submit
+              {updating ? "Update" : "Submit"}
             </Button>
           </Space>
         }
