@@ -68,14 +68,14 @@ const Protected = () => {
           >
             <Flex justify="space-between" style={{ padding: "0 16px" }}>
               <div>
-                {!collapsed && (
+                {/* {!collapsed && (
                   <Text type="success" className="">
                     <Space>
                       {user.role}
                       <UserOutlined style={{ fontSize: "18px" }} />
                     </Space>
                   </Text>
-                )}
+                )} */}
               </div>
               <div className="flex items-center gap-4">
                 <div>Hello, {user.name}</div>
@@ -104,8 +104,14 @@ const Protected = () => {
                 margin: "16px 0",
               }}
             >
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Text type="success" className="">
+                  <Space>
+                    {user.role}
+                    <UserOutlined style={{ fontSize: "18px" }} />
+                  </Space>
+                </Text>
+              </Breadcrumb.Item>
             </Breadcrumb>
             <div
               style={{
