@@ -6,6 +6,7 @@ import NonProtected from "./Layouts/NonProtected";
 import Login from "./Pages/Login";
 import Projects from "./Pages/Projects";
 import Users from "./Pages/Users";
+import Docs from "./Pages/Docs";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
           {
             path: "/users",
             element: <Users />,
+          },
+          {
+            path: "/docs",
+            element: <Docs />,
           },
         ],
       },

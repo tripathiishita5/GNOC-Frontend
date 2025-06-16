@@ -5,6 +5,7 @@ import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { useState } from "react";
 import {
+  BookOutlined,
   FundProjectionScreenOutlined,
   HomeFilled,
   UserOutlined,
@@ -161,6 +162,14 @@ const getMenueItems = (role) => {
       icon: <UserOutlined style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/users"}>Users</NavLink>,
       priorty: 3,
+    });
+  }
+  if (role == "manager" || role == "engineer") {
+    baseItems.push({
+      key: "/Docs",
+      icon: <BookOutlined style={{ fontSize: "18px" }} />,
+      label: <NavLink to={"/docs"}>Docs</NavLink>,
+      priorty: 4,
     });
   }
   return baseItems.sort((a, b) => a.priorty - b.priorty);
