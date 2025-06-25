@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { Form, Button, Card, Drawer, Space, Input, Table, Spin } from "antd";
+import {
+  Form,
+  Button,
+  Card,
+  Drawer,
+  Space,
+  Input,
+  Table,
+  Spin,
+  Select,
+} from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createDoc, getDocs } from "../htttp/api";
 
 const Docs = () => {
   const [open, setOpen] = useState(false);
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
 
@@ -30,7 +42,16 @@ const Docs = () => {
     addDoc(values);
   };
 
-  const documents = data?.data?.data || [];
+  const allDocuments = data?.data?.data || [];
+
+  // Apply both filters: tag + title search
+  const documents = allDocuments.filter((doc) => {
+    const matchesTag = selectedTag ? doc.tags === selectedTag : true;
+    const matchesTitle = doc.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    return matchesTag && matchesTitle;
+  });
 
   const columns = [
     {
@@ -60,6 +81,14 @@ const Docs = () => {
       ),
     },
     {
+      title: "Tag",
+      dataIndex: "tags",
+      key: "tags",
+      render: (tag) => (
+        <span style={{ color: "#13c2c2", fontWeight: 500 }}>{tag}</span>
+      ),
+    },
+    {
       title: "Created At",
       dataIndex: "createdAt",
       key: "createdAt",
@@ -75,7 +104,30 @@ const Docs = () => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-end mb-4">
+      {/* Filter and Add Button Row */}
+      <div className="flex justify-between flex-wrap gap-2 mb-4">
+        <div className="flex gap-2">
+          <Select
+            allowClear
+            style={{ width: 200 }}
+            placeholder="Filter by tag"
+            onChange={(value) => setSelectedTag(value)}
+            options={[
+              { value: "react", label: "React" },
+              { value: "javascript", label: "JavaScript" },
+              { value: "nodejs", label: "Node.js" },
+              { value: "css", label: "CSS" },
+              { value: "html", label: "HTML" },
+            ]}
+          />
+          <Input.Search
+            placeholder="Search by title"
+            allowClear
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ width: 250 }}
+          />
+        </div>
+
         <Button
           onClick={showDrawer}
           style={{
@@ -141,6 +193,23 @@ const Docs = () => {
               ]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item
+              label="Doc Tag"
+              name="tags"
+              rules={[{ required: true, message: "Please input the doc tag!" }]}
+            >
+              <Select
+                style={{ width: "100%" }}
+                placeholder="Select or add tags"
+                options={[
+                  { value: "react" },
+                  { value: "javascript" },
+                  { value: "nodejs" },
+                  { value: "css" },
+                  { value: "html" },
+                ]}
+              />
             </Form.Item>
             <Form.Item>
               <Button
