@@ -113,10 +113,10 @@ const Docs = () => {
             placeholder="Filter by tag"
             onChange={(value) => setSelectedTag(value)}
             options={[
-              { value: "react", label: "React" },
-              { value: "javascript", label: "JavaScript" },
-              { value: "nodejs", label: "Node.js" },
-              { value: "css", label: "CSS" },
+              { value: "Monitoring Projects", label: "Monitoring Projects" },
+              { value: "Zabbix Server", label: "Zabbix Server" },
+              { value: "Zabbix Agent", label: "Zabbix Agent" },
+              { value: "css", label: "Monitoring Types" },
               { value: "html", label: "HTML" },
             ]}
           />
@@ -203,10 +203,10 @@ const Docs = () => {
                 style={{ width: "100%" }}
                 placeholder="Select or add tags"
                 options={[
-                  { value: "react" },
-                  { value: "javascript" },
-                  { value: "nodejs" },
-                  { value: "css" },
+                  { value: "Monitoring Projects" },
+                  { value: "Zabbix Server" },
+                  { value: "Zabbix Agent" },
+                  { value: "Monitoring Types" },
                   { value: "html" },
                 ]}
               />
