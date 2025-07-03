@@ -9,19 +9,26 @@ import {
   Table,
   Spin,
   Select,
+  message,
 } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createDoc, getDocs } from "../htttp/api";
-
+import { createDoc, getDocs, deleteDoc, updateDoc } from "../htttp/api";
 const Docs = () => {
   const [open, setOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [editingDoc, setEditingDoc] = useState(null);
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
 
   const showDrawer = () => setOpen(true);
-  const onClose = () => setOpen(false);
+  const onClose = () => {
+    setOpen(false);
+    setEditMode(false);
+    setEditingDoc(null);
+    form.resetFields();
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ["docs"],
@@ -32,19 +39,51 @@ const Docs = () => {
   const { mutate: addDoc } = useMutation({
     mutationFn: (doc) => createDoc(doc),
     onSuccess: () => {
+      message.success("Document added");
       form.resetFields();
       queryClient.invalidateQueries(["docs"]);
       onClose();
     },
   });
 
+  const { mutate: updateMutation } = useMutation({
+    mutationFn: ({ id, data }) => updateDoc({ id, data }),
+    onSuccess: () => {
+      message.success("Document updated");
+      queryClient.invalidateQueries(["docs"]);
+      onClose();
+    },
+  });
+
+  const { mutate: deleteMutation } = useMutation({
+    mutationFn: (id) => deleteDoc(id),
+    onSuccess: () => {
+      message.success("Document deleted");
+      queryClient.invalidateQueries(["docs"]);
+    },
+  });
+
+  const handleDelete = (id) => {
+    deleteMutation(id);
+  };
+
+  const handleEdit = (doc) => {
+    setEditMode(true);
+    setEditingDoc(doc);
+    form.setFieldsValue(doc);
+    setOpen(true);
+  };
+
   const onFinish = (values) => {
-    addDoc(values);
+    if (editMode && editingDoc) {
+      updateMutation({ id: editingDoc._id, data: values });
+    } else {
+      addDoc(values);
+    }
   };
 
   const allDocuments = data?.data?.data || [];
 
-  // Apply both filters: tag + title search
   const documents = allDocuments.filter((doc) => {
     const matchesTag = selectedTag ? doc.tags === selectedTag : true;
     const matchesTitle = doc.title
@@ -100,6 +139,20 @@ const Docs = () => {
       key: "updatedAt",
       render: (date) => new Date(date).toLocaleString(),
     },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => (
+        <Space>
+          <Button type="link" onClick={() => handleEdit(record)}>
+            Edit
+          </Button>
+          <Button type="link" danger onClick={() => handleDelete(record._id)}>
+            Delete
+          </Button>
+        </Space>
+      ),
+    },
   ];
 
   return (
@@ -152,7 +205,7 @@ const Docs = () => {
       )}
 
       <Drawer
-        title="Add New Document"
+        title={editMode ? "Update Document" : "Add New Document"}
         placement="right"
         width={500}
         onClose={onClose}
@@ -220,7 +273,7 @@ const Docs = () => {
                 type="primary"
                 htmlType="submit"
               >
-                Submit
+                {editMode ? "Update" : "Submit"}
               </Button>
             </Form.Item>
           </Form>

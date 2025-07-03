@@ -15,3 +15,5 @@ export const deleteProject = (id) => api.delete(`/project/${id}`);
 export const getAnalytics = () => api.get("/project/analytics");
 export const createDoc = (data) => api.post("/docs/", data);
 export const getDocs = () => api.get("/docs/");
+export const deleteDoc = (id) => api.delete(`/docs/${id}`);
+export const updateDoc = ({ id, data }) => api.patch(`/docs/${id}`, data);
