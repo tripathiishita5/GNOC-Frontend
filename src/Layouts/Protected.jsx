@@ -155,6 +155,13 @@ const getMenueItems = (role) => {
       label: <NavLink to={"/projects"}>Projects</NavLink>,
       priorty: 2,
     },
+    {
+      key:"/flowCharts",
+      icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
+      label: <NavLink to={"/flowCharts"}>Flow Charts</NavLink>,
+      priorty: 6,
+      
+    }
   ];
   if (role == "manager") {
     baseItems.push({

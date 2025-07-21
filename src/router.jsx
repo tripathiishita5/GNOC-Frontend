@@ -7,6 +7,7 @@ import Login from "./Pages/Login";
 import Projects from "./Pages/Projects";
 import Users from "./Pages/Users";
 import Docs from "./Pages/Docs";
+import FlowCharts from "./Pages/FlowCharts";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
           {
             path: "/docs",
             element: <Docs />,
+          },
+          {
+            path: "/flowCharts",
+            element: <FlowCharts />,
           },
         ],
       },
