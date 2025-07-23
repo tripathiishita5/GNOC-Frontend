@@ -162,6 +162,13 @@ const getMenueItems = (role) => {
       label: <NavLink to={"/alertHandling"}>Alert Handling</NavLink>,
       priorty: 6,
 
+    },
+    {
+      key: "/monitoringHealth",
+      icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
+      label: <NavLink to={"/monitoringHealth"}>Monitoring Health Dashboard</NavLink>,
+      priorty: 6,
+
     }
   ];
   if (role == "manager") {

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { zabbixData } from "../utility/constant";
 import { ArrowLeftCircle } from "lucide-react";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 9;
 
 const isBay2 = (zabbix) => {
   const bay2Zabbix = ["Australia zabbix", "S3 zabbix", "SFE zabbix"];

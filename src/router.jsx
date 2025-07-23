@@ -9,6 +9,7 @@ import Users from "./Pages/Users";
 import Docs from "./Pages/Docs";
 import Organogram from "./Pages/Organogram";
 import AlertHandling from "./Pages/AlertHandling";
+import MonitoringHealth from "./Pages/MonitoringHealth";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
           {
             path: "/docs",
             element: <Docs />,
+          },
+          {
+            path: "/monitoringHealth",
+            element: <MonitoringHealth />,
           },
         ],
       },
