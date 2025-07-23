@@ -4,10 +4,11 @@ import Protected from "./Layouts/Protected";
 import Dashboard from "./Pages/Dashboard";
 import NonProtected from "./Layouts/NonProtected";
 import Login from "./Pages/Login";
-import Projects from "./Pages/Projects";
+//import Projects from "./Pages/Projects";
 import Users from "./Pages/Users";
 import Docs from "./Pages/Docs";
-import FlowCharts from "./Pages/FlowCharts";
+import Organogram from "./Pages/Organogram";
+import AlertHandling from "./Pages/AlertHandling";
 
 export const router = createBrowserRouter([
   {
@@ -23,8 +24,12 @@ export const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: "/projects",
-            element: <Projects />,
+            path: "/organogram",
+            element: <Organogram />,
+          },
+          {
+            path: "/alertHandling",
+            element: <AlertHandling />,
           },
           {
             path: "/users",
@@ -33,10 +38,6 @@ export const router = createBrowserRouter([
           {
             path: "/docs",
             element: <Docs />,
-          },
-          {
-            path: "/flowCharts",
-            element: <FlowCharts />,
           },
         ],
       },
