@@ -22,12 +22,18 @@ function Dashboard() {
   // Paginate each Bay separately
   const paginatedBay1 = [];
   for (let i = 0; i < bay1Data.length; i += PAGE_SIZE) {
-    paginatedBay1.push({ bay: "Bay 1", data: bay1Data.slice(i, i + PAGE_SIZE) });
+    paginatedBay1.push({
+      bay: "Bay 1",
+      data: bay1Data.slice(i, i + PAGE_SIZE),
+    });
   }
 
   const paginatedBay2 = [];
   for (let i = 0; i < bay2Data.length; i += PAGE_SIZE) {
-    paginatedBay2.push({ bay: "Bay 2", data: bay2Data.slice(i, i + PAGE_SIZE) });
+    paginatedBay2.push({
+      bay: "Bay 2",
+      data: bay2Data.slice(i, i + PAGE_SIZE),
+    });
   }
 
   const allPages = [...paginatedBay1, ...paginatedBay2];
@@ -113,14 +119,33 @@ function Dashboard() {
           style={{ backgroundColor: "#fce7f2" }}
           headStyle={{ color: "#840F59" }}
         >
-          <p><strong>Zabbix:</strong> {selectedService.zabbix || "N/A"}</p>
-          <p><strong>IP Address:</strong> {selectedService.ip || "N/A"}</p>
-          <p><strong>Data Centre:</strong> {selectedService.dataCentre || "N/A"}</p>
-          <p><strong>Version:</strong> {selectedService.version || "N/A"}</p>
-          <p><strong>Helpdesk:</strong> {selectedService.primaryTeam || "N/A"}</p>
-          <p><strong>Resolver Team:</strong> {selectedService.resolverTeam || "N/A"}</p>
-          <p><strong>Escalation Team:</strong> {selectedService.escalationTeam || "N/A"}</p>
-          <p><strong>Technical Architect:</strong> {selectedService.technicalArchitect || "N/A"}</p>
+          <p>
+            <strong>Zabbix:</strong> {selectedService.zabbix || "N/A"}
+          </p>
+          <p>
+            <strong>IP Address:</strong> {selectedService.ip || "N/A"}
+          </p>
+          <p>
+            <strong>Data Centre:</strong> {selectedService.dataCentre || "N/A"}
+          </p>
+          <p>
+            <strong>Version:</strong> {selectedService.version || "N/A"}
+          </p>
+          <p>
+            <strong>Helpdesk:</strong> {selectedService.primaryTeam || "N/A"}
+          </p>
+          <p>
+            <strong>Resolver Team:</strong>{" "}
+            {selectedService.resolverTeam || "N/A"}
+          </p>
+          <p>
+            <strong>Escalation Team:</strong>{" "}
+            {selectedService.escalationTeam || "N/A"}
+          </p>
+          <p>
+            <strong>Technical Architect:</strong>{" "}
+            {selectedService.technicalArchitect || "N/A"}
+          </p>
         </Card>
       )}
     </div>
