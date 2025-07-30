@@ -150,17 +150,25 @@ const getMenueItems = (role) => {
       priorty: 1,
     },
     {
-      key: "/projects",
+      key: "/organogram",
       icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
-      label: <NavLink to={"/projects"}>Projects</NavLink>,
-      priorty: 2,
+      label: <NavLink to={"/organogram"}>Organogram</NavLink>,
+      priorty: 6,
+
     },
     {
-      key:"/flowCharts",
+      key: "/alertHandling",
       icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
-      label: <NavLink to={"/flowCharts"}>Flow Charts</NavLink>,
+      label: <NavLink to={"/alertHandling"}>Alert Handling</NavLink>,
       priorty: 6,
-      
+
+    },
+    {
+      key: "/monitoringHealth",
+      icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
+      label: <NavLink to={"/monitoringHealth"}>Monitoring Health Dashboard</NavLink>,
+      priorty: 6,
+
     }
   ];
   if (role == "manager") {
