@@ -17,5 +17,6 @@ export const createDoc = (data) => api.post("/docs/", data);
 export const getDocs = () => api.get("/docs/");
 export const deleteDoc = (id) => api.delete(`/docs/${id}`);
 export const updateDoc = ({ id, data }) => api.patch(`/docs/${id}`, data);
-export const creatAlert = (data) => api.post("/alert", data);
-export const getAlerts = () => api.get("/alert");
+export const saveDailyAlertsApi = (data) => api.post("/alert", data);
+export const getTodayAlertsApi = () => api.get("/alert");
+export const getAllSavedAlertsApi = () => api.get("/alert/all");
