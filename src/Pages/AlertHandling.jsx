@@ -5,7 +5,7 @@ const AlertHandling = () => (
     <div className="w-full flex flex-col items-center py-6 space-y-10">
         {/* General Alert Handling Flow */}
         <div className="w-full flex flex-col items-center">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+            <h2 className="text-2xl font-semibold mb-4 text-[#840F59] text-center">
                 General Alert Handling Flow
             </h2>
             <div className="flex justify-center w-full">
@@ -19,7 +19,7 @@ const AlertHandling = () => (
 
         {/* P1 Alert Handling Flow */}
         <div className="w-full flex flex-col items-center">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+            <h2 className="text-2xl font-semibold mb-4 text-[#840F59] text-center">
                 P1 & P2 Alert Handling Flow
             </h2>
             <div className="flex justify-center w-full">
