@@ -9,6 +9,8 @@ import {
   FundProjectionScreenOutlined,
   HomeFilled,
   UserOutlined,
+  AlertOutlined,
+  DashboardOutlined,
 } from "@ant-design/icons";
 import Logo from "../Components/Logo";
 import { Typography } from "antd";
@@ -36,7 +38,7 @@ const Protected = () => {
     return <Navigate to={"/auth/login"} />;
   }
 
-  const items = getMenueItems(user.role);
+  const items = getMenuItems(user.role);
   return (
     <div>
       <Layout
@@ -141,51 +143,53 @@ const Protected = () => {
 export default Protected;
 
 // eslint-disable-next-line no-unused-vars
-const getMenueItems = (role) => {
+const getMenuItems = (role) => {
   const baseItems = [
     {
       key: "/",
       icon: <HomeFilled style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/"}>Home</NavLink>,
-      priorty: 1,
+      priority: 1,
     },
     {
       key: "/organogram",
       icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/organogram"}>Organogram</NavLink>,
-      priorty: 6,
-
+      priority: 2,
     },
     {
       key: "/alertHandling",
-      icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
+      icon: <AlertOutlined style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/alertHandling"}>Alert Handling</NavLink>,
-      priorty: 6,
-
+      priority: 3,
     },
     {
       key: "/monitoringHealth",
-      icon: <FundProjectionScreenOutlined style={{ fontSize: "18px" }} />,
-      label: <NavLink to={"/monitoringHealth"}>Monitoring Health Dashboard</NavLink>,
-      priorty: 6,
-
-    }
+      icon: <DashboardOutlined style={{ fontSize: "18px" }} />,
+      label: (
+        <NavLink to={"/monitoringHealth"}>Monitoring Health Dashboard</NavLink>
+      ),
+      priority: 4,
+    },
   ];
-  if (role == "manager") {
+
+  if (role === "manager") {
     baseItems.push({
-      key: "/Users",
+      key: "/users",
       icon: <UserOutlined style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/users"}>Users</NavLink>,
-      priorty: 3,
+      priority: 5,
     });
   }
-  if (role == "manager" || role == "engineer") {
+
+  if (role === "manager" || role === "engineer") {
     baseItems.push({
-      key: "/Docs",
+      key: "/docs",
       icon: <BookOutlined style={{ fontSize: "18px" }} />,
       label: <NavLink to={"/docs"}>Docs</NavLink>,
-      priorty: 4,
+      priority: 6,
     });
   }
-  return baseItems.sort((a, b) => a.priorty - b.priorty);
+
+  return baseItems.sort((a, b) => a.priority - b.priority);
 };
